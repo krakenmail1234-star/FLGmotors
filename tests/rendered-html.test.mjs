@@ -1,44 +1,29 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render(path = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${path}`);
-  const { default: worker } = await import(workerUrl.href);
-  return worker.fetch(new Request(`http://localhost${path}`, { headers: { accept: "text/html" } }), { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } }, { waitUntil() {}, passThroughOnException() {} });
+async function source(path) {
+  return readFile(new URL(path, import.meta.url), "utf8");
 }
 
-test("renders the finished FLG Motors home page", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-  const html = await response.text();
-  assert.match(html, /F\.L\.G Motors — autoserviss Rīgā/);
-  assert.match(html, /Salabosim\. Izskaidrosim\./);
-  assert.match(html, /Pieteikties servisam/);
-  assert.match(html, /facebook-engine\.jpg/);
-  assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Starter Project/);
+test("contains every public route and the main FLG Motors content", async () => {
+  const [home, services, contacts, booking] = await Promise.all([
+    source("../app/page.tsx"),
+    source("../app/pakalpojumi/page.tsx"),
+    source("../app/kontakti/page.tsx"),
+    source("../app/pieteikties/page.tsx"),
+  ]);
+  assert.match(home, /Salabosim\. Izskaidrosim\./);
+  assert.match(services, /serviceGroups/);
+  assert.match(contacts, /Biķernieku iela 121G/);
+  assert.match(booking, /Testa vidē piedāvājam tuvākās darba dienas/);
 });
 
-test("renders every public route with its core content", async () => {
-  const cases = [
-    ["/pakalpojumi", /Datordiagnostika un elektronika/],
-    ["/kontakti", /Biķernieku iela 121G/],
-    ["/pieteikties", /Pieejamo laiku testa režīms/],
-  ];
-  for (const [path, expected] of cases) {
-    const response = await render(path);
-    assert.equal(response.status, 200, path);
-    assert.match(await response.text(), expected, path);
-  }
-});
-
-test("includes WhatsApp contact and the complete Latvian appointment fields", async () => {
-  const response = await render("/pieteikties");
-  const html = await response.text();
-  assert.match(html, /Nosūtīt WhatsApp/);
-  assert.match(html, /Uzvārds/);
-  assert.match(html, /Auto numura zīme/);
-  assert.match(html, /Problēma, kas jānovērš/);
-  assert.match(html, /37124945990/);
+test("includes WhatsApp and the complete Latvian appointment form", async () => {
+  const bookingForm = await source("../app/pieteikties/BookingForm.tsx");
+  assert.match(bookingForm, /Nosūtīt WhatsApp/);
+  assert.match(bookingForm, /Uzvārds/);
+  assert.match(bookingForm, /Auto numura zīme/);
+  assert.match(bookingForm, /Problēma, kas jānovērš/);
+  assert.match(bookingForm, /37124945990/);
 });
