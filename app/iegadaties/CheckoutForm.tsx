@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
-type Props = { serviceName: string; price: string; min: number; max: number };
+type Props = { serviceName: string; price: string; min: number; max: number | null };
 
 export function CheckoutForm({ serviceName, price, min, max }: Props) {
   const [amount, setAmount] = useState(min.toFixed(2));
@@ -32,7 +32,7 @@ export function CheckoutForm({ serviceName, price, min, max }: Props) {
   return <form className="checkout-card" onSubmit={submit}>
     <span className="test-badge"><span /> EveryPay testa vide</span>
     <div className="checkout-product"><small>Izvēlētais pakalpojums</small><h2>{serviceName}</h2><strong>{price}</strong></div>
-    <label><span>Saskaņotā summa (€)</span><input type="number" min={min} max={max} step="0.01" value={amount} onChange={(event) => setAmount(event.target.value)} required /></label>
+    <label><span>Saskaņotā summa (€)</span><input type="number" min={min} max={max ?? undefined} step="0.01" value={amount} onChange={(event) => setAmount(event.target.value)} required /></label>
     <p className="field-hint">Ievadiet ar servisu saskaņoto summu norādītajā cenu diapazonā.</p>
     <label><span>E-pasts</span><input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="vards@epasts.lv" required /></label>
     <label className="consent"><input type="checkbox" required /><span>Apstiprinu izvēlēto pakalpojumu un testa maksājuma summu.</span></label>

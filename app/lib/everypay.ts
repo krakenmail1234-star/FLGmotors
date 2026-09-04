@@ -29,8 +29,9 @@ export function validatePurchase(serviceName: string, amount: number) {
   if (!service) throw new Error("Izvēlētais pakalpojums nav atrasts.");
   const range = getServicePriceRange(service.price);
   const roundedAmount = Math.round(amount * 100) / 100;
-  if (!Number.isFinite(roundedAmount) || roundedAmount < range.min || roundedAmount > range.max) {
-    throw new Error(`Summai jābūt no ${range.min.toFixed(2)} € līdz ${range.max.toFixed(2)} €.`);
+  if (!Number.isFinite(roundedAmount) || roundedAmount < range.min || (range.max !== null && roundedAmount > range.max)) {
+    const limit = range.max === null ? `vismaz ${range.min.toFixed(2)} €` : `no ${range.min.toFixed(2)} € līdz ${range.max.toFixed(2)} €`;
+    throw new Error(`Summai jābūt ${limit}.`);
   }
   return { service, amount: roundedAmount };
 }

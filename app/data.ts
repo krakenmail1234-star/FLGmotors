@@ -98,7 +98,7 @@ export const allServices = serviceGroups.flatMap((group) => group.services.map((
 
 export function getServicePriceRange(price: string) {
   const values = price.match(/\d+(?:,\d+)?/g)?.map((value) => Number(value.replace(",", "."))) ?? [];
-  return { min: values[0] ?? 0, max: values[1] ?? values[0] ?? 0 };
+  return { min: values[0] ?? 0, max: price.includes("+") ? null : (values[1] ?? values[0] ?? 0) };
 }
 
 export function findService(name: string) {
