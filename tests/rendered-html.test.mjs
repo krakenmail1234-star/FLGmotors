@@ -27,3 +27,16 @@ test("includes WhatsApp and the complete Latvian appointment form", async () => 
   assert.match(bookingForm, /Problēma, kas jānovērš/);
   assert.match(bookingForm, /37124945990/);
 });
+
+test("includes EveryPay checkout buttons, server validation, and result page", async () => {
+  const [services, checkout, api, payment] = await Promise.all([
+    source("../app/pakalpojumi/page.tsx"),
+    source("../app/iegadaties/CheckoutForm.tsx"),
+    source("../app/api/payments/create/route.ts"),
+    source("../app/maksajums/page.tsx"),
+  ]);
+  assert.match(services, /Iegādāties/);
+  assert.match(checkout, /EveryPay testa vide/);
+  assert.match(api, /createEveryPayPayment/);
+  assert.match(payment, /getEveryPayPayment/);
+});

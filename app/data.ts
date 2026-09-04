@@ -95,6 +95,16 @@ export const serviceGroups: ServiceGroup[] = [
 ];
 
 export const allServices = serviceGroups.flatMap((group) => group.services.map((service) => service.name));
+
+export function getServicePriceRange(price: string) {
+  const values = price.match(/\d+(?:,\d+)?/g)?.map((value) => Number(value.replace(",", "."))) ?? [];
+  return { min: values[0] ?? 0, max: values[1] ?? values[0] ?? 0 };
+}
+
+export function findService(name: string) {
+  return serviceGroups.flatMap((group) => group.services).find((service) => service.name === name);
+}
+
 export const facebookUrl = "https://www.facebook.com/profile.php?id=100068430232724&locale=lv_LV";
 export const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=F.L.G+Motors+Biķernieku+iela+121G+Rīga";
 

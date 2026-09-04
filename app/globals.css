@@ -17,3 +17,35 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 .contact-whatsapp{color:#168f52;font-size:12px;font-weight:850}.booking-actions{display:grid;grid-template-columns:1fr 1fr;gap:14px}.button-whatsapp{border-color:#17a85b;background:#17a85b;box-shadow:0 7px 0 #0d6b39}.button-whatsapp:hover{background:#20ba68;box-shadow:0 11px 0 #0d6b39}.button-calendar{border-color:#3777e3;background:#3777e3;box-shadow:0 7px 0 #1d4f9f}.button-calendar:hover{background:#4787f2;box-shadow:0 11px 0 #1d4f9f}.wa-mini{display:grid;place-items:center;width:26px;height:26px;border:2px solid #fff;border-radius:50%;font-size:8px;letter-spacing:-.05em}.whatsapp-float{position:fixed;z-index:45;right:24px;bottom:24px;display:flex;align-items:center;gap:11px;padding:9px 16px 9px 9px;border:1px solid rgba(255,255,255,.55);border-radius:999px;background:#17a85b;color:#fff;box-shadow:0 10px 28px rgba(0,0,0,.24);transition:transform .2s ease,box-shadow .2s}.whatsapp-float:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 16px 34px rgba(0,0,0,.28)}.whatsapp-float span{display:grid;place-items:center;width:36px;height:36px;border:2px solid #fff;border-radius:50%;font-size:10px;font-weight:900}.whatsapp-float b{font-size:12px}
 @media(max-width:620px){.booking-actions{grid-template-columns:1fr}.whatsapp-float{right:12px;bottom:12px;padding-right:9px}.whatsapp-float b{display:none}}
+
+/* EveryPay demo checkout */
+.price-row{grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:22px;padding:14px 0}
+.buy-link{padding:9px 13px;border:1px solid var(--ink);border-radius:6px;background:var(--ink);color:#fff;font-size:11px;font-weight:850;transition:transform .18s ease,box-shadow .18s ease}
+.buy-link:hover{transform:translateY(-3px);box-shadow:0 5px 0 #b8b7b1}
+.checkout-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start;max-width:1000px}
+.checkout-card{padding:38px;border:1px solid var(--line);border-radius:9px;background:#fff;box-shadow:0 14px 40px rgba(20,20,20,.07)}
+.checkout-product{margin-bottom:28px;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.checkout-product small{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.checkout-product h2{margin:12px 0;font-size:30px;line-height:1.15}
+.checkout-product strong{color:var(--red-dark);font-size:18px}
+.checkout-card>label:not(.consent){display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.checkout-card>label>span{font-size:12px;font-weight:800}
+.field-hint{margin:7px 0 0;font-size:11px;line-height:1.45}
+.checkout-submit{width:100%}
+.checkout-submit:disabled{opacity:.65;transform:none;box-shadow:none}
+.payment-error{margin:0 0 18px;padding:13px;border-left:3px solid var(--red);background:#fff0ef;color:#7b211e;font-size:13px}
+.checkout-aside{padding:38px;border-radius:9px;background:var(--ink);color:#fff}
+.checkout-aside h2{margin-bottom:18px;font-size:34px}
+.checkout-aside p{color:#b2b4b4}
+.checkout-aside ul{margin:30px 0 0;padding:0;list-style:none}
+.checkout-aside li{padding:14px 0;border-top:1px solid #3a3c3d;font-size:13px}
+.checkout-aside li:before{content:"✓";margin-right:10px;color:#ff625e;font-weight:900}
+.payment-result{display:flex;gap:24px;padding:38px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.payment-result.is-success{border-color:#99d4b4;background:#f2fbf6}
+.payment-result-icon{display:grid;place-items:center;width:52px;height:52px;flex:0 0 52px;border-radius:50%;background:var(--ink);color:#fff;font-size:22px;font-weight:900}
+.payment-result.is-success .payment-result-icon{background:#218b55}
+.payment-result h2{font-size:30px}
+.payment-result code{font-size:12px}
+.result-actions{display:flex;align-items:center;gap:24px;margin-top:28px}
+@media(max-width:900px){.checkout-layout{grid-template-columns:1fr}}
+@media(max-width:620px){.price-row{grid-template-columns:1fr auto;gap:8px}.price-row>span{grid-column:1/-1}.buy-link{justify-self:end}.checkout-card,.checkout-aside,.payment-result{padding:24px}.payment-result{flex-direction:column}.result-actions{align-items:stretch;flex-direction:column}}
